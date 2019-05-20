@@ -36,7 +36,6 @@ describe('App', () => {
 
 
   it('can Add a new card', () => {
-      wrapper.vm.cards;
       let len1 = wrapper.vm.cards.length;
       wrapper.vm.addCard();
       let len2 = wrapper.vm.cards.length;
@@ -44,6 +43,24 @@ describe('App', () => {
       expect(len1).toBeLessThan(len2);
       expect( wrapper.vm.cards[0] ).toBeInstanceOf(CardData);
   })
+
+
+  it('assert new cards are added to the beginning of the array', () => {
+    wrapper.vm.cards = [];
+    wrapper.vm.addCard();
+    let card1 = wrapper.vm.cards[0];
+    wrapper.vm.addCard();
+    let card2 = wrapper.vm.cards[0];
+    wrapper.vm.addCard();
+    let card3 = wrapper.vm.cards[0];
+    wrapper.vm.addCard();
+    let card4 = wrapper.vm.cards[0];
+
+    expect(wrapper.vm.cards[3]).toBe(card1);
+    expect(wrapper.vm.cards[2]).toBe(card2);
+    expect(wrapper.vm.cards[1]).toBe(card3);
+    expect(wrapper.vm.cards[0]).toBe(card4);
+})
 
   
   it('can delete an existing card', (done) => {
