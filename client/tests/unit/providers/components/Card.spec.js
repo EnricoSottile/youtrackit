@@ -32,7 +32,7 @@ describe('Card', () => {
     })
   });
 
-    it('removeCard is called when clicking the corresponding button', () => {
+  it('removeCard is called when clicking the corresponding button', () => {
     const stub = jest.fn();
     wrapper.setMethods({ removeCard: stub });
 

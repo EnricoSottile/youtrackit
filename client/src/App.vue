@@ -73,11 +73,9 @@ export default {
   },
 
   methods: {
-
     initMainPackery(){
       var elem = document.querySelector('#main-packery-container');
       this.packeryInstance = new Packery( elem, {
-        
         percentPosition: true,
         itemSelector: '.grid-item',
         columnWidth: '.grid-sizer',
@@ -91,7 +89,7 @@ export default {
      * Updates the packery layout
      */
     addCard(){
-      let newCard = new CardData()
+      let newCard = new CardData();
       let _self = this;
       this.cards.unshift( newCard );
 
@@ -116,6 +114,7 @@ export default {
       setTimeout(function(){
         _self.cards = _self.cards.filter(item => item.uuid !== itemUuid);
       }, 10);
+
     },
     
     /**
