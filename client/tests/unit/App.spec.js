@@ -7,9 +7,11 @@ import CardData from '@/providers/CardData'
 
 // Mocking packery plugin when mounting App
 const initMainPackery = jest.fn()
+const initMainDraggabilly = jest.fn();
+const addToDraggabilly = jest.fn();
 
 const wrapper = mount(App, {
-    methods: { initMainPackery }
+    methods: { initMainPackery, initMainDraggabilly, addToDraggabilly }
 });
 
 wrapper.setData({ 
@@ -19,7 +21,7 @@ wrapper.setData({
         stamp: jest.fn(),
         remove: jest.fn(),
         layout: jest.fn(),
-    } 
+    }
 });
 
 describe('App', () => {
@@ -32,6 +34,7 @@ describe('App', () => {
   it('loads default data correctly', () => {
     expect( Array.isArray(wrapper.vm.cards) ).toBe(true);
     expect( wrapper.vm.packeryInstance ).toBeDefined();
+    expect( wrapper.vm.draggableList ).toEqual([]);
   })
 
 
@@ -71,7 +74,7 @@ describe('App', () => {
     setTimeout( () => {
         expect(len1).toBeGreaterThan( wrapper.vm.cards.length );
       done()
-    }, 20)
+    }, 500)
   })
 
 

@@ -14,12 +14,12 @@
 
 
     
-    <div id="main-packery-container">
+    <div id="main-cards-container">
 
         <div class="grid-sizer"></div>
         <div class="gutter-sizer"></div>
 
-        <div :id="card.uuid" class="grid-item" v-for="card in cards" v-bind:key="card.uuid">
+        <div :id="card.uuid" class="grid-item draggable-item" v-for="card in cards" v-bind:key="card.uuid">
           <card-component 
             :uuid="card.uuid"
             :title="card.title"
@@ -32,7 +32,7 @@
             @remove-card-clicked="handleRemoveCard"></card-component>
         </div>
 
-    </div><!--/#main-packery-container-->
+    </div><!--/#main-cards-container-->
 
 
 
@@ -44,6 +44,7 @@ import CardData from './providers/CardData';
 import CardComponent from './components/Card.vue';
 
 import Packery from 'packery';
+import Draggabilly from 'draggabilly';
 //eslint-disable-next-line
 import Pure from 'purecss';
 
@@ -58,6 +59,7 @@ export default {
 
   data(){
     return {
+      draggableList: [],
       packeryInstance: null,
       cards: [
         new CardData(),
@@ -70,11 +72,12 @@ export default {
 
   mounted(){
     this.initMainPackery();
+    this.initMainDraggabilly();
   },
 
   methods: {
     initMainPackery(){
-      var elem = document.querySelector('#main-packery-container');
+      var elem = document.querySelector('#main-cards-container');
       this.packeryInstance = new Packery( elem, {
         percentPosition: true,
         itemSelector: '.grid-item',
@@ -82,6 +85,22 @@ export default {
         gutter: '.gutter-sizer',
       });
     },
+    initMainDraggabilly(){
+      let draggableElems = document.querySelectorAll('.draggable-item');
+      draggableElems.forEach(val => {
+        this.addToDraggabilly(val);
+      })
+    },
+    addToDraggabilly(nodeElem){
+      let draggie = new Draggabilly( nodeElem, {
+        containment: '#main-cards-container',
+        handle: '.draggabilly-handle'
+      });
+
+      this.packeryInstance.bindDraggabillyEvents( draggie )
+      this.draggableList.push(draggie);
+    },
+
 
     
     /**
@@ -96,12 +115,14 @@ export default {
       setTimeout(function(){
         let elem = document.getElementById(newCard.uuid);
         _self.packeryInstance.prepended(elem)
+        _self.addToDraggabilly(elem)
       }, 10);
     },
 
     /**
      * Removes an existing CardData() from the cards array,
      * And from the packery instance
+     * Also clean draggabilly list
      */
     handleRemoveCard(itemUuid){
       let _self = this;
@@ -111,25 +132,31 @@ export default {
       this.packeryInstance.remove( elem );
       this.packeryInstance.layout();
 
-      setTimeout(function(){
+      this.draggableList.filter(item => item.element.id !== itemUuid);
+
+      setTimeout(function(){ // timeout for animation
         _self.cards = _self.cards.filter(item => item.uuid !== itemUuid);
-      }, 10);
+      }, 200);
 
     },
     
     /**
      * Toggles an existing CardData() 'isStuck' Boolean attribute
      * corresponding with a stuck/floating positioning in the packery layout
+     * and also with the draggabilly plugin
      */
     handleToggleStickCard(itemUuid) {
       let elem = document.getElementById(itemUuid);
+      let draggable = this.draggableList.find(item => item.element.id === itemUuid);
       let card = this.cards.find(item => item.uuid === itemUuid);
 
       if (card.isStuck === true) {
         this.packeryInstance.unstamp( elem );
+        draggable && draggable.enable();
         card.isStuck = false;
       } else {
         this.packeryInstance.stamp( elem );
+        draggable && draggable.disable();
         card.isStuck = true;
       }
     },

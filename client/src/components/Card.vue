@@ -1,6 +1,7 @@
 <template>
 
     <div :class="heightClass">
+        <span class="draggabilly-handle">{{ isStuck === true ? 'Bloccato' : 'Drag me'}}</span>
         <h2>{{ getCardTitle }}</h2>
         <time>{{ getDate }}</time>
         <br/>
