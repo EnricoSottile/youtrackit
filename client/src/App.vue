@@ -108,8 +108,8 @@ export default {
      * Updates the packery layout
      */
     addCard(){
-      let newCard = new CardData();
       let _self = this;
+      let newCard = new CardData();
       this.cards.unshift( newCard );
 
       setTimeout(function(){
@@ -205,6 +205,13 @@ export default {
   }
 
 
+.packery-drop-placeholder {
+  outline: 3px dashed #444;
+  outline-offset: -6px;
+  /* transition position changing */
+  -webkit-transition: -webkit-transform 0.2s;
+          transition: transform 0.2s;
+}
 
 
 </style>
