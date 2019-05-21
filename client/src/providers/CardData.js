@@ -9,6 +9,14 @@ class CardData {
         this.created_at = new Date();
         this.events = [];
     }
+
+    toggleStuckStatus(){
+        this.isStuck = !this.isStuck;
+    }
+
+    isCurrentlyStuck(){
+        return this.isStuck;
+    }
 }
 
 export default CardData

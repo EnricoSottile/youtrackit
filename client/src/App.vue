@@ -6,7 +6,6 @@
           <a href="#" class="pure-menu-heading pure-menu-link">BRAND</a>
           <ul class="pure-menu-list">
               <li class="pure-menu-item"><a href="#" class="pure-menu-link">foo</a></li>
-              <li class="pure-menu-item"><a href="#" class="pure-menu-link">count: {{cards.length}}</a></li>
               <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="addCard">add</a></li>
           </ul>
       </div>
@@ -19,7 +18,7 @@
         <div class="grid-sizer"></div>
         <div class="gutter-sizer"></div>
 
-        <div :id="card.uuid" class="grid-item draggable-item" v-for="card in cards" v-bind:key="card.uuid">
+        <div :id="card.uuid" class="grid-item draggable-item" v-for="card in dashboard.cards" v-bind:key="card.uuid">
           <card-component 
             :uuid="card.uuid"
             :title="card.title"
@@ -40,7 +39,7 @@
 </template>
 
 <script>
-import CardData from './providers/CardData';
+import Dashboard from './classes/DashboardClass';
 import CardComponent from './components/Card.vue';
 
 import Packery from 'packery';
@@ -59,13 +58,10 @@ export default {
 
   data(){
     return {
+      // TODO/BUG: draggable can overlap stamped packery elements
       draggableList: [],
       packeryInstance: null,
-      cards: [
-        new CardData(),
-        new CardData(),
-        new CardData(),
-      ]
+      dashboard: new Dashboard(),
     }
   },
 
@@ -104,13 +100,12 @@ export default {
 
     
     /**
-     * Pushes a new CardData() to the cards array
+     * Add a new card and
      * Updates the packery layout
      */
     addCard(){
       let _self = this;
-      let newCard = new CardData();
-      this.cards.unshift( newCard );
+      let newCard = this.dashboard.addCard();
 
       setTimeout(function(){
         let elem = document.getElementById(newCard.uuid);
@@ -120,7 +115,7 @@ export default {
     },
 
     /**
-     * Removes an existing CardData() from the cards array,
+     * Removes the card from the dashboard
      * And from the packery instance
      * Also clean draggabilly list
      */
@@ -135,30 +130,31 @@ export default {
       this.draggableList.filter(item => item.element.id !== itemUuid);
 
       setTimeout(function(){ // timeout for animation
-        _self.cards = _self.cards.filter(item => item.uuid !== itemUuid);
+        _self.dashboard.removeCardById(itemUuid);
       }, 200);
 
     },
     
     /**
-     * Toggles an existing CardData() 'isStuck' Boolean attribute
+     * Toggles an existing CardData() 'isStuck' Boolean attribute (API)
      * corresponding with a stuck/floating positioning in the packery layout
      * and also with the draggabilly plugin
      */
     handleToggleStickCard(itemUuid) {
       let elem = document.getElementById(itemUuid);
       let draggable = this.draggableList.find(item => item.element.id === itemUuid);
-      let card = this.cards.find(item => item.uuid === itemUuid);
+      let card = this.dashboard.getCardById(itemUuid);
 
-      if (card.isStuck === true) {
-        this.packeryInstance.unstamp( elem );
-        draggable && draggable.enable();
-        card.isStuck = false;
-      } else {
+      card.toggleStuckStatus();
+
+    if ( card.isCurrentlyStuck() === true ) {
         this.packeryInstance.stamp( elem );
         draggable && draggable.disable();
-        card.isStuck = true;
+      } else {
+        this.packeryInstance.unstamp( elem );
+        draggable && draggable.enable();
       }
+
     },
 
 

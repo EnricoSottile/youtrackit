@@ -13,9 +13,28 @@ describe('CardData.js', () => {
     expect(card.title).toBe('');
     expect(card.isStuck).toBe(false);
     expect(card.tags).toEqual([]);
-    expect( card.created_at.getTime() ).toBeDefined();
+    expect(card.created_at.getTime() ).toBeDefined();
     expect(card.events).toEqual([]);
   });
 
+
+  it('toggles the stuck status', () => {
+    let newCard = new CardData();
+
+    newCard.toggleStuckStatus();
+    expect(newCard.isStuck).toBe(true);
+  });
+
+
+  it('returns the stuck status correctly', () => {
+    let newCard = new CardData();
+
+    expect( newCard.isCurrentlyStuck() ).toBe(false);
+    newCard.toggleStuckStatus();
+    expect( newCard.isCurrentlyStuck() ).toBe(true);
+    newCard.toggleStuckStatus();
+    expect( newCard.isCurrentlyStuck() ).toBe(false);
+
+  });
 
 })
