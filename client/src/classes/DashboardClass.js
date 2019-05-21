@@ -19,6 +19,7 @@ class DashboardClass {
     /**
      * Returns a card by its id
      * @param {String} uuid 
+     * @return {CardData}
      */
     getCardById(uuid){
         return this.cards.find(item => item.uuid === uuid);
@@ -27,6 +28,7 @@ class DashboardClass {
 
     /**
      * Pushes a new CardData() to the cards array
+     * @return {CardData}
      */
     addCard(){
         let newCard = new CardData();

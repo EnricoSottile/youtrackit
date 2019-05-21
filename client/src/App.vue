@@ -68,7 +68,7 @@ export default {
 
   mounted(){
     this.initMainPackery();
-    this.initMainDraggabilly();
+    this.initMainDraggabilly();    
   },
 
   methods: {

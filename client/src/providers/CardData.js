@@ -10,10 +10,17 @@ class CardData {
         this.events = [];
     }
 
+    /**
+     * toggles the card isStuck status
+     * used to keep track of enabled/disabled dragging
+     */
     toggleStuckStatus(){
         this.isStuck = !this.isStuck;
     }
 
+    /**
+     * @return {Boolean}  
+     */
     isCurrentlyStuck(){
         return this.isStuck;
     }
