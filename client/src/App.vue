@@ -142,7 +142,12 @@ export default {
 
     handleAddEventToCard(itemUuid){
       let card = this.dashboard.getCardById(itemUuid);
+      
       card.addNewEvent();
+
+      setTimeout(() => {
+        this.packeryInstance.layout();
+      }, 10);
     },
 
     handleEventUpdate({ key, value, cardUuid, eventUuid }){
@@ -164,17 +169,11 @@ export default {
     height:100%;
     min-height:100vh;
     padding-top:70px;
-    padding-left:25px;
-    padding-right:25px;
     margin:0;
     background-color:#EBEBEB;
   }
 
   #header .pure-menu {
-    margin-left:-25px;
-    margin-right:-25px;
-    padding-left:25px;
-    padding-right:25px;
     padding-top:10px;
     padding-bottom:10px;
     background-color:white;
@@ -185,14 +184,56 @@ export default {
 
   }
 
-  .gutter-sizer { 
-    width: 1%; 
+  #main-cards-container {
+    padding-left:15px;
+    padding-right:15px;
   }
 
+  // 1 per screen
   .grid-sizer,
   .grid-item {
-    width: 19.2%;
+    width: 100%;
   }
+
+
+  @media(min-width:768px) {
+      .gutter-sizer { 
+        width: 1%; 
+      }
+
+      // 2 per screen
+      .grid-sizer,
+      .grid-item {
+        width: 49.5%;
+      }
+  }
+
+  @media(min-width:1200px) {
+      .gutter-sizer { 
+        width: 1%; 
+      }
+
+      // 5 per screen
+      .grid-sizer,
+      .grid-item {
+        width: 19.2%;
+      }
+  }
+
+
+  @media(min-width:1600px) {
+      .gutter-sizer { 
+        width: 0.8%; 
+      }
+
+      // 5 per screen
+      .grid-sizer,
+      .grid-item {
+        width: 16%;
+      }
+  }
+
+
 
 
 .packery-drop-placeholder {

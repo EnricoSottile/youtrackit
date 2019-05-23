@@ -1,6 +1,6 @@
 <template>
 
-    <div :class="heightClass">
+    <div class="card" :class="getClass">
         <input 
             type="text" 
             :value="title" @input="$emit('update:title', $event.target.value)" 
@@ -50,15 +50,17 @@ export default {
 
     data(){
         return {
-            heightClass: '',
         };
     },
 
     created(){
-        this.heightClass = this.getClass();
     },
 
     computed: {
+        getClass(){
+            let eventsLen = this.getLatestEvents.length;
+            return `height-${eventsLen}`;
+        },
         getDate(){
             return this.created_at.toLocaleTimeString();
         },
@@ -69,11 +71,7 @@ export default {
     },
 
     methods: {
-        getClass(){
-            let classes = ['', 'height-2', 'height-3']; 
-            let heightClass = classes[Math.floor(Math.random() * classes.length)];
-            return `card ${heightClass}`;
-        },
+
         removeCard(){
             this.$emit('remove-card-clicked', this.uuid);
         },
@@ -107,7 +105,6 @@ export default {
 
 
     .card {
-        height:200px;
         background-color:white;
         width:100%;
         border-radius: 10px;
@@ -120,14 +117,20 @@ export default {
         box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.15);
     }
 
-
+    .height-0 {
+        height:200px;
+    }
+    .height-1 {
+        height:250px;
+    }
     .height-2 {
+        height:300px;
+    }
+    .height-3 {
         height:350px;
     }
 
-    .height-3 {
-        height:500px;
-    }
+
 </style>
 
 

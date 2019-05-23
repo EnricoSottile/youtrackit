@@ -82,8 +82,7 @@ describe('App', () => {
         cardUuid: newCard.uuid, 
         eventUuid: newEvent.uuid 
       });
-    expect(newEvent.description).toEqual('testValue')
-    
+    expect(newEvent.description).toEqual('testValue')    
   })
 
 
