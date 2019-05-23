@@ -5,10 +5,19 @@ class CardData {
     constructor() {
         this.uuid = uuid();
         this.title = '';
+        this.isStuck = false;
         this.isFavourite = false;
         this.tags = [];
         this.created_at = new Date();
         this.events = [];
+    }
+
+    /**
+     * toggles the card isStuck status
+     * used to keep track of enabled/disabled dragging
+     */
+    toggleStuckStatus(){
+        this.isStuck = !this.isStuck;
     }
 
     /**

@@ -5,7 +5,7 @@
             type="text" 
             :value="title" @input="$emit('update:title', $event.target.value)" 
             placeholder="add a title">
-            
+
         <time>{{ getDate }}</time>
         <br/>
 
@@ -14,6 +14,9 @@
         <button id="favouriteButton" @click.prevent="toggleIsFavourite">
             {{ isFavourite === true ? 'unfav' : 'fav'}}    
         </button>   
+
+        <button id="stickButton" @click.prevent="toggleStickPosition">
+            {{ isStuck === true ? 'sblocca' : 'fissa'}} </button>
 
         <button id="addEvent" @click.prevent="addEvent">
             {{ events.length }}
@@ -28,6 +31,7 @@ export default {
     props: {
         uuid: String,
         title: String,
+        isStuck: Boolean,
         isFavourite: Boolean,
         tags: Array,
         created_at: Date,
@@ -58,6 +62,9 @@ export default {
         },
         removeCard(){
             this.$emit('remove-card-clicked', this.uuid);
+        },
+        toggleStickPosition(){
+            this.$emit('toggle-stick-clicked', this.uuid);
         },
         toggleIsFavourite(){
             this.$emit('toggle-favourite-clicked', this.uuid);
