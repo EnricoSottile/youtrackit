@@ -32,8 +32,20 @@ class CardData {
      * Adds a new event to the card
      */
     addNewEvent(){
-        this.events.push( new Event() );
+        let event = new Event();
+        this.events.push( event );
+        return event;
     }
+
+    /**
+     * Returns a event by its id
+     * @param {String} uuid 
+     * @return {Event}
+     */
+    getEventById(uuid){
+        return this.events.find(item => item.uuid === uuid);
+    }
+
 
 }
 

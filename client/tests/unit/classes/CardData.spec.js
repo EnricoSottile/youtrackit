@@ -35,12 +35,24 @@ describe('CardData.js', () => {
   });
 
 
-  it('adds a new event', () => {
+  it('adds and new event', () => {
     let newCard = new CardData();
     let len = newCard.events.length;
 
     newCard.addNewEvent();
     expect(newCard.events.length ).toBeGreaterThan(len);
+  });
+
+  it('can retrieve an existing event', () => {
+    let newCard = new CardData();
+    
+    let newEvent = newCard.addNewEvent();
+    let retrieved = newCard.getEventById(newEvent.uuid);
+    
+    expect(newEvent).toBeDefined();
+    expect(retrieved).toBeDefined();
+    expect(newEvent).toBe(retrieved);
+
   });
 
 

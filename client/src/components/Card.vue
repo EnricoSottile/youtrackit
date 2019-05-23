@@ -21,6 +21,16 @@
         <button id="addEvent" @click.prevent="addEvent">
             {{ events.length }}
         </button>    
+
+        <ul>
+            <li v-for="event in getLatestEvents" :key="event.uuid">
+                <input 
+                type="text" 
+                :value="event.description" @input="emitEventUpdate($event.target.value, event.uuid)"
+                placeholder="add a description">
+            </li>
+        </ul>
+
     </div>
     
 </template>
@@ -51,7 +61,11 @@ export default {
     computed: {
         getDate(){
             return this.created_at.toLocaleTimeString();
-        }
+        },
+        getLatestEvents(){
+            // rimanda gli ultimi 3 eventi inseriti
+            return this.events.slice().reverse().splice(0,3);
+        },
     },
 
     methods: {
@@ -71,7 +85,15 @@ export default {
         },
         addEvent(){
             this.$emit('add-event-clicked', this.uuid);
-        }
+        },
+        emitEventUpdate(value, eventUuid){
+            this.$emit('event-update', {
+                key: 'description',
+                value: value,
+                cardUuid: this.uuid, 
+                eventUuid: eventUuid,
+            });
+        },
 
     }
 

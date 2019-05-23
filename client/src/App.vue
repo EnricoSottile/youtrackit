@@ -26,9 +26,10 @@
             :isFavourite="card.isFavourite"
             :tags="card.tags"
             :created_at="card.created_at"
-            :events="card.events"
+            :events.sync="card.events"
 
             @add-event-clicked="handleAddEventToCard"
+            @event-update="handleEventUpdate"
             @toggle-stick-clicked="handleToggleStickCard"
             @toggle-favourite-clicked="handleToggleFavouriteCard"
             @remove-card-clicked="handleRemoveCard"></card-component>
@@ -142,7 +143,13 @@ export default {
     handleAddEventToCard(itemUuid){
       let card = this.dashboard.getCardById(itemUuid);
       card.addNewEvent();
-    }
+    },
+
+    handleEventUpdate({ key, value, cardUuid, eventUuid }){
+      let card = this.dashboard.getCardById(cardUuid);
+      let event = card.getEventById(eventUuid);
+      event[key] = value;
+    },
 
 
   }

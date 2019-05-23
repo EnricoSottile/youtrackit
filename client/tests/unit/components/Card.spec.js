@@ -28,13 +28,23 @@ describe('Card', () => {
     wrapper.vm.toggleStickPosition();
     wrapper.vm.toggleIsFavourite();
     wrapper.vm.addEvent();
+    wrapper.vm.emitEventUpdate('testValue', 'eventUuid');
 
     expect( wrapper.emitted() ).toEqual({
       'remove-card-clicked': [ [ card.uuid ] ],
       'toggle-stick-clicked': [ [ card.uuid ] ],
       'toggle-favourite-clicked': [ [ card.uuid ] ],
-      'add-event-clicked': [ [ card.uuid ] ]
-    })
+      'add-event-clicked': [ [ card.uuid ] ],
+      'event-update': [[{
+        cardUuid: wrapper.vm.uuid, 
+        eventUuid: 'eventUuid', 
+        key: 'description', 
+        value: 'testValue',
+      }]],
+    });
+
+
+
   });
 
   it('removeCard is called when clicking the corresponding button', () => {
@@ -68,5 +78,6 @@ describe('Card', () => {
     const el = wrapper.find("#addEvent").trigger("click");
     expect(stub).toBeCalled();
   })
+
 
 })

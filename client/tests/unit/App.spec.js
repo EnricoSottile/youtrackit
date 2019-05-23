@@ -49,7 +49,6 @@ describe('App', () => {
     newCard.toggleFavouriteStatus = mockFav;
     newCard.addNewEvent = mockAddEvent;
 
-
     wrapper.vm.addCard();
     wrapper.vm.handleRemoveCard(newCard.uuid);
     wrapper.vm.handleToggleFavouriteCard(newCard.uuid);
@@ -64,7 +63,27 @@ describe('App', () => {
       done()
     }, 500)
 
+  })
 
+  it('updates an event correctly', () => {
+
+    // reset mocks
+    let newWrapper = mount(App, {
+      methods: { initMainPackery }
+    });
+
+    let newCard = newWrapper.vm.dashboard.addCard();
+    let newEvent = newCard.addNewEvent();
+    
+    newWrapper.vm.handleEventUpdate(
+      { 
+        key: 'description', 
+        value: 'testValue', 
+        cardUuid: newCard.uuid, 
+        eventUuid: newEvent.uuid 
+      });
+    expect(newEvent.description).toEqual('testValue')
+    
   })
 
 
