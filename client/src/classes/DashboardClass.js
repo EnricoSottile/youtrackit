@@ -1,4 +1,4 @@
-import CardData from '../providers/CardData'
+import CardData from './CardData'
 
 class DashboardClass {
 

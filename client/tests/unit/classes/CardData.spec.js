@@ -1,4 +1,4 @@
-import CardData from '@/providers/CardData'
+import CardData from '@/classes/CardData'
 
 const card = new CardData();
 
@@ -23,6 +23,15 @@ describe('CardData.js', () => {
 
     newCard.toggleFavouriteStatus();
     expect(newCard.isFavourite).toBe(true);
+  });
+
+
+  it('adds a new event', () => {
+    let newCard = new CardData();
+    let len = newCard.events.length;
+
+    newCard.addNewEvent();
+    expect(newCard.events.length ).toBeGreaterThan(len);
   });
 
 

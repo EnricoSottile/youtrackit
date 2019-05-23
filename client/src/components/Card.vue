@@ -1,7 +1,11 @@
 <template>
 
     <div :class="heightClass">
-        <h2>{{ getCardTitle }}</h2>
+        <input 
+            type="text" 
+            :value="title" @input="$emit('update:title', $event.target.value)" 
+            placeholder="add a title">
+            
         <time>{{ getDate }}</time>
         <br/>
 
@@ -9,6 +13,10 @@
         <br>
         <button id="favouriteButton" @click.prevent="toggleIsFavourite">
             {{ isFavourite === true ? 'unfav' : 'fav'}}    
+        </button>   
+
+        <button id="addEvent" @click.prevent="addEvent">
+            {{ events.length }}
         </button>    
     </div>
     
@@ -37,9 +45,6 @@ export default {
     },
 
     computed: {
-        getCardTitle(){
-            return this.title.length ? this.title : '...';
-        },
         getDate(){
             return this.created_at.toLocaleTimeString();
         }
@@ -57,6 +62,9 @@ export default {
         toggleIsFavourite(){
             this.$emit('toggle-favourite-clicked', this.uuid);
         },
+        addEvent(){
+            this.$emit('add-event-clicked', this.uuid);
+        }
 
     }
 

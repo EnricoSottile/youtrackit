@@ -1,4 +1,5 @@
 import uuid from 'uuid/v4';
+import Event from './Event';
 
 class CardData {
     constructor() {
@@ -15,6 +16,14 @@ class CardData {
      */
     toggleFavouriteStatus(){
         this.isFavourite = !this.isFavourite;
+    }
+
+
+    /**
+     * Adds a new event to the card
+     */
+    addNewEvent(){
+        this.events.push( new Event() );
     }
 
 }

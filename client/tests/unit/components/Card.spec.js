@@ -1,7 +1,7 @@
 import { mount, shallowMount } from '@vue/test-utils'
 import Card from '@/components/Card'
 
-import CardData from '@/providers/CardData'
+import CardData from '@/classes/CardData'
 const card = new CardData();
 
 const wrapper = shallowMount(Card, {
@@ -25,10 +25,12 @@ describe('Card', () => {
   it("emits the expected events and data", () => {
     wrapper.vm.removeCard();
     wrapper.vm.toggleIsFavourite();
+    wrapper.vm.addEvent();
 
     expect( wrapper.emitted() ).toEqual({
       'remove-card-clicked': [ [ card.uuid ] ],
-      'toggle-favourite-clicked': [ [ card.uuid ] ]
+      'toggle-favourite-clicked': [ [ card.uuid ] ],
+      'add-event-clicked': [ [ card.uuid ] ]
     })
   });
 
@@ -45,6 +47,14 @@ describe('Card', () => {
     wrapper.setMethods({ toggleIsFavourite: stub });
 
     const el = wrapper.find("#favouriteButton").trigger("click");
+    expect(stub).toBeCalled();
+  })
+
+  it('addEvent is called when clicking the corresponding button', () => {
+    const stub = jest.fn();
+    wrapper.setMethods({ addEvent: stub });
+
+    const el = wrapper.find("#addEvent").trigger("click");
     expect(stub).toBeCalled();
   })
 

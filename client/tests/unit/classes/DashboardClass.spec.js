@@ -1,5 +1,5 @@
 
-import CardData from '@/providers/CardData'
+import CardData from '@/classes/CardData'
 import Dashboard from '@/classes/DashboardClass'
 const dashboard = new Dashboard();
 

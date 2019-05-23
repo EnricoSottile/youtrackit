@@ -35,24 +35,32 @@ describe('App', () => {
   })
 
 
-  it('calls the dashboard crud methods ', (done) => {
+  it('calls the dashboard/cards crud methods ', (done) => {
     const mockAdd = jest.fn();
     const mockRemove = jest.fn();
+    const mockFav = jest.fn();
+    const mockAddEvent = jest.fn();
     
     let newCard = wrapper.vm.dashboard.addCard(); // add a card
     mockAdd.mockReturnValueOnce(newCard);
 
     wrapper.vm.dashboard.addCard = mockAdd;
     wrapper.vm.dashboard.removeCardById = mockRemove;
+    newCard.toggleFavouriteStatus = mockFav;
+    newCard.addNewEvent = mockAddEvent;
 
 
     wrapper.vm.addCard();
-    wrapper.vm.handleRemoveCard(newCard);
+    wrapper.vm.handleRemoveCard(newCard.uuid);
+    wrapper.vm.handleToggleFavouriteCard(newCard.uuid);
+    wrapper.vm.handleAddEventToCard(newCard.uuid);
 
     
     setTimeout( () => {
       expect(mockAdd).toBeCalled();  
       expect(mockRemove).toBeCalled();
+      expect(mockFav).toBeCalled();
+      expect(mockAddEvent).toBeCalled();
       done()
     }, 500)
 

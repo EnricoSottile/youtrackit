@@ -21,12 +21,13 @@
         <div :id="card.uuid" class="grid-item draggable-item" v-for="card in dashboard.cards" v-bind:key="card.uuid">
           <card-component 
             :uuid="card.uuid"
-            :title="card.title"
+            :title.sync="card.title"
             :isFavourite="card.isFavourite"
             :tags="card.tags"
             :created_at="card.created_at"
             :events="card.events"
 
+            @add-event-clicked="handleAddEventToCard"
             @toggle-favourite-clicked="handleToggleFavouriteCard"
             @remove-card-clicked="handleRemoveCard"></card-component>
         </div>
@@ -118,6 +119,11 @@ export default {
       let card = this.dashboard.getCardById(itemUuid);
       card.toggleFavouriteStatus();
     },
+
+    handleAddEventToCard(itemUuid){
+      let card = this.dashboard.getCardById(itemUuid);
+      card.addNewEvent();
+    }
 
 
   }
