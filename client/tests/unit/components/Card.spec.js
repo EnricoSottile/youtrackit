@@ -24,11 +24,11 @@ describe('Card', () => {
 
   it("emits the expected events and data", () => {
     wrapper.vm.removeCard();
-    wrapper.vm.toggleStickPosition();
+    wrapper.vm.toggleIsFavourite();
 
     expect( wrapper.emitted() ).toEqual({
       'remove-card-clicked': [ [ card.uuid ] ],
-      'toggle-stick-clicked': [ [ card.uuid ] ]
+      'toggle-favourite-clicked': [ [ card.uuid ] ]
     })
   });
 
@@ -40,11 +40,11 @@ describe('Card', () => {
     expect(stub).toBeCalled();
   })
 
-  it('toggleStickPosition is called when clicking the corresponding button', () => {
+  it('toggleIsFavourite is called when clicking the corresponding button', () => {
     const stub = jest.fn();
-    wrapper.setMethods({ toggleStickPosition: stub });
+    wrapper.setMethods({ toggleIsFavourite: stub });
 
-    const el = wrapper.find("#stickButton").trigger("click");
+    const el = wrapper.find("#favouriteButton").trigger("click");
     expect(stub).toBeCalled();
   })
 

@@ -6,11 +6,10 @@ import Dashboard from '@/classes/DashboardClass'
 
 // Mocking packery plugin when mounting App
 const initMainPackery = jest.fn()
-const initMainDraggabilly = jest.fn();
-const addToDraggabilly = jest.fn();
+
 
 const wrapper = mount(App, {
-    methods: { initMainPackery, initMainDraggabilly, addToDraggabilly }
+    methods: { initMainPackery }
 });
 
 wrapper.setData({ 

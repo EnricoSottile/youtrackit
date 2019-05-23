@@ -1,15 +1,14 @@
 <template>
 
     <div :class="heightClass">
-        <span class="draggabilly-handle">{{ isStuck === true ? 'Bloccato' : 'Drag me'}}</span>
         <h2>{{ getCardTitle }}</h2>
         <time>{{ getDate }}</time>
         <br/>
 
         <button id="removeButton" @click.prevent="removeCard"> Rimuovi</button> 
         <br>
-        <button id="stickButton" @click.prevent="toggleStickPosition">
-            {{ isStuck === true ? 'sblocca' : 'fissa'}}    
+        <button id="favouriteButton" @click.prevent="toggleIsFavourite">
+            {{ isFavourite === true ? 'unfav' : 'fav'}}    
         </button>    
     </div>
     
@@ -21,7 +20,7 @@ export default {
     props: {
         uuid: String,
         title: String,
-        isStuck: Boolean,
+        isFavourite: Boolean,
         tags: Array,
         created_at: Date,
         events: Array,
@@ -55,8 +54,8 @@ export default {
         removeCard(){
             this.$emit('remove-card-clicked', this.uuid);
         },
-        toggleStickPosition(){
-            this.$emit('toggle-stick-clicked', this.uuid);
+        toggleIsFavourite(){
+            this.$emit('toggle-favourite-clicked', this.uuid);
         },
 
     }

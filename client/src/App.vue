@@ -22,12 +22,12 @@
           <card-component 
             :uuid="card.uuid"
             :title="card.title"
-            :isStuck="card.isStuck"
+            :isFavourite="card.isFavourite"
             :tags="card.tags"
             :created_at="card.created_at"
             :events="card.events"
 
-            @toggle-stick-clicked="handleToggleStickCard"
+            @toggle-favourite-clicked="handleToggleFavouriteCard"
             @remove-card-clicked="handleRemoveCard"></card-component>
         </div>
 
@@ -112,21 +112,11 @@ export default {
     },
     
     /**
-     * Toggles an existing CardData() 'isStuck' Boolean attribute (API)
-     * corresponding with a stuck/floating positioning in the packery layout
+     * Toggles an existing CardData() 'isFavourite' Boolean attribute (API)
      */
-    handleToggleStickCard(itemUuid) {
-      let elem = document.getElementById(itemUuid);
+    handleToggleFavouriteCard(itemUuid) {
       let card = this.dashboard.getCardById(itemUuid);
-
-      card.toggleStuckStatus();
-
-      if ( card.isCurrentlyStuck() === true ) {
-        this.packeryInstance.stamp( elem );
-      } else {
-        this.packeryInstance.unstamp( elem );
-      }
-
+      card.toggleFavouriteStatus();
     },
 
 
