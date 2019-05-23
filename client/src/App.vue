@@ -43,7 +43,6 @@ import Dashboard from './classes/DashboardClass';
 import CardComponent from './components/Card.vue';
 
 import Packery from 'packery';
-import Draggabilly from 'draggabilly';
 //eslint-disable-next-line
 import Pure from 'purecss';
 
@@ -58,8 +57,6 @@ export default {
 
   data(){
     return {
-      // TODO/BUG: draggable can overlap stamped packery elements
-      draggableList: [],
       packeryInstance: null,
       dashboard: new Dashboard(),
     }
@@ -68,7 +65,6 @@ export default {
 
   mounted(){
     this.initMainPackery();
-    this.initMainDraggabilly();    
   },
 
   methods: {
@@ -80,21 +76,6 @@ export default {
         columnWidth: '.grid-sizer',
         gutter: '.gutter-sizer',
       });
-    },
-    initMainDraggabilly(){
-      let draggableElems = document.querySelectorAll('.draggable-item');
-      draggableElems.forEach(val => {
-        this.addToDraggabilly(val);
-      })
-    },
-    addToDraggabilly(nodeElem){
-      let draggie = new Draggabilly( nodeElem, {
-        containment: '#main-cards-container',
-        handle: '.draggabilly-handle'
-      });
-
-      this.packeryInstance.bindDraggabillyEvents( draggie )
-      this.draggableList.push(draggie);
     },
 
 
@@ -110,24 +91,19 @@ export default {
       setTimeout(function(){
         let elem = document.getElementById(newCard.uuid);
         _self.packeryInstance.prepended(elem)
-        _self.addToDraggabilly(elem)
       }, 10);
     },
 
     /**
      * Removes the card from the dashboard
      * And from the packery instance
-     * Also clean draggabilly list
      */
     handleRemoveCard(itemUuid){
       let _self = this;
       let elem = document.getElementById(itemUuid);
 
-      this.packeryInstance.unstamp( elem ); // stuck items misbehave when removed
       this.packeryInstance.remove( elem );
       this.packeryInstance.layout();
-
-      this.draggableList.filter(item => item.element.id !== itemUuid);
 
       setTimeout(function(){ // timeout for animation
         _self.dashboard.removeCardById(itemUuid);
@@ -138,21 +114,17 @@ export default {
     /**
      * Toggles an existing CardData() 'isStuck' Boolean attribute (API)
      * corresponding with a stuck/floating positioning in the packery layout
-     * and also with the draggabilly plugin
      */
     handleToggleStickCard(itemUuid) {
       let elem = document.getElementById(itemUuid);
-      let draggable = this.draggableList.find(item => item.element.id === itemUuid);
       let card = this.dashboard.getCardById(itemUuid);
 
       card.toggleStuckStatus();
 
-    if ( card.isCurrentlyStuck() === true ) {
+      if ( card.isCurrentlyStuck() === true ) {
         this.packeryInstance.stamp( elem );
-        draggable && draggable.disable();
       } else {
         this.packeryInstance.unstamp( elem );
-        draggable && draggable.enable();
       }
 
     },

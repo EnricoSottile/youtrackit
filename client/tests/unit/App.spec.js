@@ -33,7 +33,6 @@ describe('App', () => {
   it('loads default data correctly', () => {
     expect( wrapper.vm.dashboard ).toBeInstanceOf(Dashboard);
     expect( wrapper.vm.packeryInstance ).toBeDefined();
-    expect( wrapper.vm.draggableList ).toEqual([]);
   })
 
 
@@ -59,7 +58,6 @@ describe('App', () => {
     }, 500)
 
 
-    // test toggle isStuck
   })
 
 

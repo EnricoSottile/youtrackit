@@ -61,19 +61,4 @@ describe('Dashboard', () => {
 
   });
 
-
-  // it('toggles the isStuck status correctly', () => {
-  //   let arr = wrapper.vm.cards;
-  //   wrapper.vm.addCard();
-  //   let card = arr[0];
-
-  //   expect(card.isStuck).toBe(false);
-  //   wrapper.vm.handleToggleStickCard(card.uuid);
-  //   expect(card.isStuck).toBe(true);
-  //   wrapper.vm.handleToggleStickCard(card.uuid);
-  //   expect(card.isStuck).toBe(false);
-
-  // })
-
-
 })
